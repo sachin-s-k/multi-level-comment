@@ -12,13 +12,16 @@ export class AuthController{
    async  OnRegisterUser(req:Request,res:Response){
 
       try{
+console.log(req.body);
 
-        const {username,email,password}=req.body
-        const userData=await this.authInteractor.registerUser(username,email,password)
-        return res.json(userData)
+        const {username,email,password,mobileNumber}=req.body
+        const token=await this.authInteractor.registerUser(username,email,password,mobileNumber)
+        return res.json(token)
 
       }
-      catch(error){
+      catch(error:any){
+        res.status(400).json({message:error.message})
+
 
       }
              
@@ -33,8 +36,9 @@ export class AuthController{
         return res.json(userData)
 
 
-        }catch(error){
+        }catch(error:any){
             console.log(error);
+            res.status(400).json({message:error.message})
             
             
         }

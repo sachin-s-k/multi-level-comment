@@ -10,5 +10,8 @@ const  authInteractor=new AuthInteractor(authRepository)
 const authController=new AuthController(authInteractor)
 
 
-authRouter.get('/register',authController.OnRegisterUser.bind(authController))
-authRouter.get('/login',authController.OnLogin.bind(authController))
+authRouter.post('/register',authController.OnRegisterUser.bind(authController))
+authRouter.post('/login',authController.OnLogin.bind(authController))
+
+
+export default authRouter

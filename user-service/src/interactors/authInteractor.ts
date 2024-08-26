@@ -13,19 +13,29 @@ export class  AuthInteractor implements IAuthInteractor{
 
 
 
-     async registerUser(username: string, email: string, password: string): Promise<string> {
+     async registerUser(username: string, email: string, password: string,mobileNumber:string): Promise<string> {
 
-      const encrytedPassword:string=await hashPassword(password)
 
-      const userData=await this.AuthRepository.addUser(username,email,encrytedPassword)
+        const existingUser=await this.AuthRepository.findByEmail(email)
+        if(existingUser){
+            throw new Error('User with this email alreday exist')
+        }
+
+      const encryptedPassword:string=await hashPassword(password)
+
+      const userData=await this.AuthRepository.addUser(username,email,encryptedPassword,mobileNumber)
 
         return this.generateToken(userData.userName,userData.email,userData._id)
          
      }
 
-     async logIn(email: string): Promise<IUser | null> {
+     async logIn(email: string,password:string): Promise<string | null> {
+        const userData=await this.AuthRepository.findByEmail(email)
+        if(!userData|| !(await comparePassword(password,userData.password))){
+            throw new Error ('Invalid email or password')
+        }
 
-        return this.AuthRepository.findByEmail(email)
+        return this.generateToken(userData.userName,userData.email,userData._id)
 
          
      }

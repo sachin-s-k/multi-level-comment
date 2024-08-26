@@ -6,9 +6,9 @@ import { IUser } from "../interfaces/IUser";
 
 export class AuthRpository implements  IAuthRepository{
 
-    async addUser(username: string, email: string,password:string): Promise<IUser> {
+    async addUser(userName: string, email: string,password:string,mobileNumber:string): Promise<IUser> {
 
-        const userData=await User.create({userName:username,email:email,password:password})
+        const userData=await User.create({userName,email,password,mobileNumber})
 
         return userData
 
