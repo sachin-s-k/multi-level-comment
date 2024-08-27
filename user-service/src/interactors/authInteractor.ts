@@ -1,7 +1,8 @@
 import { IAuthInteractor } from "../interfaces/IAuthIteractor";
 import { IAuthRepository } from "../interfaces/IAuthRepository";
 import { IUser } from "../interfaces/IUser";
-import { AuthRpository } from "../repositories/authRepository";
+import { AuthRepository } from "../repositories/authRepository";
+AuthRepository
 import { hashPassword,comparePassword} from "../utils/encryption";
 import jwt from 'jsonwebtoken'
 export class  AuthInteractor implements IAuthInteractor{
@@ -16,16 +17,23 @@ export class  AuthInteractor implements IAuthInteractor{
      async registerUser(username: string, email: string, password: string,mobileNumber:string): Promise<string> {
 
 
-        const existingUser=await this.AuthRepository.findByEmail(email)
+        const existingUser=await this.AuthRepository.findByEmail(email);
         if(existingUser){
-            throw new Error('User with this email alreday exist')
+console.log('exuttt');
+
+         throw new Error('User with this email already exists')
+        }else{
+            console.log('no error');
+            
+            const encryptedPassword:string=await hashPassword(password)
+
+            const userData=await this.AuthRepository.addUser(username,email,encryptedPassword,mobileNumber)
+      
+              return this.generateToken(userData.userName,userData.email,userData._id)
+
         }
 
-      const encryptedPassword:string=await hashPassword(password)
-
-      const userData=await this.AuthRepository.addUser(username,email,encryptedPassword,mobileNumber)
-
-        return this.generateToken(userData.userName,userData.email,userData._id)
+   
          
      }
 

@@ -12,7 +12,7 @@ export class AuthController{
    async  OnRegisterUser(req:Request,res:Response){
 
       try{
-console.log(req.body);
+console.log(req.body,'contr');
 
         const {username,email,password,mobileNumber}=req.body
         const token=await this.authInteractor.registerUser(username,email,password,mobileNumber)

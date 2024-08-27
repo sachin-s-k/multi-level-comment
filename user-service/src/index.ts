@@ -14,7 +14,7 @@ const port = process.env.PORT
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/authentication',authRouter)
+app.use('/user',authRouter)
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });

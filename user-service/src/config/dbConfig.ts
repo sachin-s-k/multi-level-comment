@@ -12,7 +12,7 @@ const connectDB=async ():Promise<void>=>{
        
     }
     catch(error){
-        console.log(error);
+        console.log(error,'mong');
         process.exit(1)
         
     }

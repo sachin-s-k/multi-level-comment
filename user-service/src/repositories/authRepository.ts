@@ -4,21 +4,37 @@ import { IUser } from "../interfaces/IUser";
 
 
 
-export class AuthRpository implements  IAuthRepository{
+export class AuthRepository implements  IAuthRepository{
 
-    async addUser(userName: string, email: string,password:string,mobileNumber:string): Promise<IUser> {
+    async addUser(userName: string, email: string,password:string,mobileNumber:string): Promise<any> {
+console.log('enterd');
 
-        const userData=await User.create({userName,email,password,mobileNumber})
 
-        return userData
+const userData= await User.create({userName,email,password,mobileNumber});
+
+            console.log(userData,'jojiojkpkkpko')
+            return userData
+       
+
+
+      
 
         
     }
 
-    async findByEmail(email: string): Promise<IUser|null> {
+    async findByEmail(email: string): Promise<any> {
 
-        const userData =await User.findOne({email:email})
-        return userData
+        
+        const userData =await User.findOne({email});
+        if (userData) {
+     
+            return userData;
+        } else {
+            
+         
+            return userData
+        }
+    
 
         
     }
